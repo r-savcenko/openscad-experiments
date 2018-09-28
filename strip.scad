@@ -43,11 +43,11 @@ module assembly() {
 
     translate([STRIP_OUTER_WIDTH - WIDTH_DIFF / 2, STRIP_WIDTH / 2, 0])
         rotate([0, 0, -45])
-            clip();
+            clip(true);
 
     translate([WIDTH_DIFF, 0, 0])
         rotate([0, 0, 180])
-            clip();
+            clip(true);
 
     translate([STRIP_OUTER_WIDTH - WIDTH_DIFF, 0, 0])
         rotate([0, 0, 180])

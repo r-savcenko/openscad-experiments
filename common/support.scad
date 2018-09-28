@@ -16,15 +16,12 @@ LAYER_THICKNESS_ = getValue(LAYER_THICKNESS, 0.1);
 WALL_THICKNESS_ = getValue(WALL_THICKNESS, 0.2);
 
 module support(WIDTH = 1, HEIGHT = 1) {
-    STEPS_COUNT = ceil(HEIGHT / LAYER_THICKNESS_ * 2);
+    STEPS_COUNT = floor(HEIGHT / (LAYER_THICKNESS_ * 2));
     SIZE_X = WALL_THICKNESS_;
     SIZE_Y = WIDTH;
     SIZE_Z = LAYER_THICKNESS_;
     for(I = [0:STEPS_COUNT]) {
-        echo(I);
         translate([0, 0, I * LAYER_THICKNESS_ * 2])
         cube([SIZE_X, SIZE_Y, SIZE_Z]);
     }
 }
-
-support(WIDTH = 10, HEIGHT = 5);

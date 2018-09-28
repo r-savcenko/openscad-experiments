@@ -16,7 +16,10 @@ HINGE_SIDE_THICKNESS = 1;
 JOINT_CORNER_RADIUS = 1;
 */
 
+WALL_THICKNESS = 0.2;
+
 include <helpers/getValue.scad>
+include <support.scad>
 
 HINGE_SIDE_THICKNESS_ = getValue(HINGE_SIDE_THICKNESS, 1);
 CLIP_TOLERANCE_MARGIN_ = getValue(CLIP_TOLERANCE_MARGIN, 0.3);
@@ -65,16 +68,14 @@ module hinge() {
     }
 }
 
-module clip() {
-    WIDTH = CLIP_WIDTH;
-
+module clip(SUPPORT = false) {
     CLEARANCE_SIZE_X = JOINT_WIDTH;
     CLEARANCE_SIZE_Y = JOINT_CILINDER_RADIUS * 2;
     CLEARANCE_SIZE_Z = JOINT_CILINDER_RADIUS * 1.5;
 
     difference() {
-        translate([0 - WIDTH / 2, 0, 0])
-            joint_side(WIDTH);
+        translate([0 - CLIP_WIDTH / 2, 0, 0])
+            joint_side(CLIP_WIDTH);
 
         union() {
             scale([1.5, 1, 1]) {
@@ -83,5 +84,15 @@ module clip() {
                     cube([CLEARANCE_SIZE_X, CLEARANCE_SIZE_Y + 1, CLEARANCE_SIZE_Z]);
             }
         }
+    }
+    if (SUPPORT) {
+        SUPPORT_WIDTH = CLIP_WIDTH / 4;
+        translate([CLIP_WIDTH / 2, JOINT_SIDE_WIDTH - WALL_THICKNESS, JOINT_HEIGHT / 2 - CLEARANCE_SIZE_Z / 2])
+            rotate([0, 0, 90])
+                support(SUPPORT_WIDTH, CLEARANCE_SIZE_Z);
+
+        translate([0 - CLIP_WIDTH / 2 + SUPPORT_WIDTH, JOINT_SIDE_WIDTH - WALL_THICKNESS, JOINT_HEIGHT / 2 - CLEARANCE_SIZE_Z / 2])
+            rotate([0, 0, 90])
+                support(SUPPORT_WIDTH, CLEARANCE_SIZE_Z);
     }
 }
