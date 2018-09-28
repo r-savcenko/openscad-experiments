@@ -16,19 +16,14 @@ INNER_RADIUS = OUTER_RADIUS - BASE_SIZE;
 
 MID_RADIUS = sqrt( pow(OUTER_RADIUS, 2) - pow(SIDE_WIDTH / 2, 2) );
 
-CLIP_TOLERANCE_MARGIN = 0.3;
-CLIP_SIDE_TOLERANCE_MARGIN = 0.5;
-
-HINGE_SIDE_THICKNESS = 1;
-
 JOINT_WIDTH = SIDE_WIDTH / 3;
 JOINT_SIDE_WIDTH = 5;
 JOINT_HEIGHT = MODEL_HEIGHT;
 
-include <polygon_joint.scad>
+include <common/joint.scad>
 
 module extruded_poly(RADIUS = OUTER_RADIUS, KOEF = 1, HEIGHT = MODEL_HEIGHT / 2) {
-    linear_extrude(height = HEIGHT, scale = 1 + SCALE_ADDON * KOEF)    
+    linear_extrude(height = HEIGHT, scale = 1 + SCALE_ADDON * KOEF)
         circle(r = RADIUS, $fn = SIDE_COUNT);
 }
 
@@ -44,7 +39,7 @@ module cap(RADIUS = OUTER_RADIUS, KOEF = 1) {
 module base() {
     difference() {
         cap(OUTER_RADIUS, 1);
-        cap(INNER_RADIUS, -1);    
+        cap(INNER_RADIUS, -1);
     }
 }
 
