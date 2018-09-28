@@ -1,5 +1,6 @@
 /*
-The following vars should be included prior to importing this file
+
+Generation a clip/hinge joint
 
 After inclusion - use clip() or hinge() modules as you like
 
@@ -15,7 +16,7 @@ HINGE_SIDE_THICKNESS = 1;
 JOINT_CORNER_RADIUS = 1;
 */
 
-function getValue(variable, default) = variable == undef ? default : variable;
+include <helpers/getValue.scad>
 
 HINGE_SIDE_THICKNESS_ = getValue(HINGE_SIDE_THICKNESS, 1);
 CLIP_TOLERANCE_MARGIN_ = getValue(CLIP_TOLERANCE_MARGIN, 0.3);
