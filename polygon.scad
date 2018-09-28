@@ -20,7 +20,7 @@ JOINT_WIDTH = SIDE_WIDTH / 3;
 JOINT_SIDE_WIDTH = 5;
 JOINT_HEIGHT = MODEL_HEIGHT;
 
-include <common/joint.scad>
+include <common/hinge-clip-joint.scad>
 
 module extruded_poly(RADIUS = OUTER_RADIUS, KOEF = 1, HEIGHT = MODEL_HEIGHT / 2) {
     linear_extrude(height = HEIGHT, scale = 1 + SCALE_ADDON * KOEF)

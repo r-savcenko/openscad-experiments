@@ -13,7 +13,7 @@ JOINT_WIDTH = STRIP_WIDTH * 0.75;
 JOINT_SIDE_WIDTH = STRIP_THICKNESS + 1;
 JOINT_HEIGHT = STRIP_THICKNESS;
 
-include <common/joint.scad>
+include <common/hinge-clip-joint.scad>
 
 CUTOUT_RADIUS = STRIP_WIDTH / 3.5;
 

@@ -11,7 +11,7 @@ JOINT_SIDE_WIDTH = TRIANGLE_THICKNESS;
 JOINT_HEIGHT = TRIANGLE_THICKNESS;
 HINGE_SIDE_THICKNESS = 1;
 
-include <common/joint.scad>
+include <common/hinge-clip-joint.scad>
 
 module triangle() {
     X1 = 0 - TRIANGLE_WIDTH / 2;
