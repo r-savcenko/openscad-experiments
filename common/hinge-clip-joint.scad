@@ -16,7 +16,7 @@ HINGE_SIDE_THICKNESS = 1;
 JOINT_CORNER_RADIUS = 1;
 */
 
-WALL_THICKNESS = 0.2;
+WALL_THICKNESS = 0.5;
 
 include <helpers/getValue.scad>
 include <support.scad>
