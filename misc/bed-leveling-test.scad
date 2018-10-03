@@ -1,7 +1,7 @@
 $fn = 36;
-SIZE_X = 200;
-SIZE_Y = 200;
-SIZE_Z = 1;
+SIZE_X = 190;
+SIZE_Y = 190;
+SIZE_Z = 0.2;
 
 ROUNDING = 10;
 
