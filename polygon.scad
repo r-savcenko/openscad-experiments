@@ -53,7 +53,7 @@ module side_joint() {
     translate([X_DISTANCE, SIDE_WIDTH / 2 - JOINT_WIDTH / 2 - FLEX_JOINT_WIDTH * 2, 0])
         rotate([0, 0, -90]) hinge();
     translate([X_DISTANCE, 0 - SIDE_WIDTH / 2 + JOINT_WIDTH / 2 + FLEX_JOINT_WIDTH * 2, 0])
-        rotate([0, 0, -90]) clip(true);
+        rotate([0, 0, -90]) clip();
 }
 
 module assembly() {
