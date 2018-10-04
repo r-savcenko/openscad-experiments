@@ -49,11 +49,3 @@ union() {
             roundedBase(ROUNDING - OUTER_WALL_THICKNESS, SIZE_X - OUTER_WALL_THICKNESS * 2, SIZE_Y - OUTER_WALL_THICKNESS * 2, SIZE_Z);
     }
 }
-/* difference() {
-linear_extrude(SIZE_Z)
-    offsetSquare(ROUNDING, SIZE_X, SIZE_Y);
-
-linear_extrude(SIZE_Z)
-    translate([OUTER_WALL_THICKNESS, OUTER_WALL_THICKNESS, 0])
-        offsetSquare(ROUNDING - 1, SIZE_X - OUTER_WALL_THICKNESS * 2, SIZE_Y - OUTER_WALL_THICKNESS * 2);
-} */
