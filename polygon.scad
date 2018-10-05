@@ -3,7 +3,7 @@ SIDE_WIDTH = 15;
 MODEL_HEIGHT = 3;
 
 FLEX_JOINT_WIDTH = 1;
-FLEX_JOINT_HEIGHT = 0.3;
+FLEX_JOINT_HEIGHT = 0.4;
 
 SCALE_ADDON = 0.1;
 BASE_SIZE = SIDE_WIDTH / 5;
@@ -53,7 +53,7 @@ module side_joint() {
     translate([X_DISTANCE, SIDE_WIDTH / 2 - JOINT_WIDTH / 2 - FLEX_JOINT_WIDTH * 2, 0])
         rotate([0, 0, -90]) hinge();
     translate([X_DISTANCE, 0 - SIDE_WIDTH / 2 + JOINT_WIDTH / 2 + FLEX_JOINT_WIDTH * 2, 0])
-        rotate([0, 0, -90]) clip(true);
+        rotate([0, 0, -90]) clip();
 }
 
 module assembly() {

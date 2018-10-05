@@ -2,7 +2,7 @@ TRIANGLE_WIDTH = 30;
 TRIANGLE_THICKNESS = 4;
 
 FLEX_JOINT_WIDTH = 1;
-FLEX_JOINT_HEIGHT = 0.5;
+FLEX_JOINT_HEIGHT = 0.4;
 
 /** DO NOT EDIT FOLLOWING VARS **/
 
@@ -67,7 +67,7 @@ module base_model() {
 
         translate([0 - TRIANGLE_WIDTH / 4, TRIANGLE_WIDTH / 4, 0])
           rotate(45, [0, 0, 1])
-            clip(true);
+            clip();
 
         translate([TRIANGLE_WIDTH / 2, 0, 0]) {
             translate([0 - TRIANGLE_WIDTH / 8 + CLIP_WIDTH / 2, 0, 0])
