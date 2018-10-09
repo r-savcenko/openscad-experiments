@@ -27,7 +27,7 @@ JOINT_SIDE_WIDTH = TRIANGLE_THICKNESS;
 JOINT_HEIGHT = TRIANGLE_THICKNESS;
 HINGE_SIDE_THICKNESS = 1;
 
-include <common/hinge-clip-joint.scad>
+include <common/joint/hinge-clip-joint.scad>
 
 module joint_extension(WIDTH = 1) {
     difference() {

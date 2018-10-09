@@ -2,16 +2,16 @@ TRIANGLE_WIDTH = 30;
 TRIANGLE_THICKNESS = 4;
 
 FLEX_JOINT_WIDTH = 1;
-FLEX_JOINT_HEIGHT = 0.4;
+FLEX_JOINT_HEIGHT = 0.6;
 
 /** DO NOT EDIT FOLLOWING VARS **/
 
-JOINT_WIDTH = TRIANGLE_WIDTH / 4 - FLEX_JOINT_WIDTH;
+JOINT_WIDTH = 5;
 JOINT_SIDE_WIDTH = TRIANGLE_THICKNESS;
 JOINT_HEIGHT = TRIANGLE_THICKNESS;
 HINGE_SIDE_THICKNESS = 1;
 
-include <common/hinge-clip-joint.scad>
+include <common/joint/hinge-clip-joint.scad>
 
 module triangle() {
     X1 = 0 - TRIANGLE_WIDTH / 2;
@@ -67,7 +67,7 @@ module base_model() {
 
         translate([0 - TRIANGLE_WIDTH / 4, TRIANGLE_WIDTH / 4, 0])
           rotate(45, [0, 0, 1])
-            clip();
+            clip(true);
 
         translate([TRIANGLE_WIDTH / 2, 0, 0]) {
             translate([0 - TRIANGLE_WIDTH / 8 + CLIP_WIDTH / 2, 0, 0])

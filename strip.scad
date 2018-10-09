@@ -1,19 +1,19 @@
 STRIP_WIDTH = 8;
-STRIP_OUTER_WIDTH = 40;
-STRIP_THICKNESS = 3;
-CUTOUT_COUNT = 3;
-CORNER_CUTOUTS = true;
+STRIP_OUTER_WIDTH = 35;
+STRIP_THICKNESS = 5;
+CUTOUT_COUNT = 0;
+CORNER_CUTOUTS = false;
 
 /** DO NOT EDIT FOLLOWING VARS **/
 
 STRIP_INNER_WIDTH = STRIP_OUTER_WIDTH - STRIP_WIDTH * 2;
 WIDTH_DIFF = (STRIP_OUTER_WIDTH - STRIP_INNER_WIDTH) / 2;
 
-JOINT_WIDTH = STRIP_WIDTH * 0.75;
-JOINT_SIDE_WIDTH = STRIP_THICKNESS + 1;
+JOINT_WIDTH = 5;
+JOINT_SIDE_WIDTH = 5;
 JOINT_HEIGHT = STRIP_THICKNESS;
 
-include <common/hinge-clip-joint.scad>
+include <common/joint/hinge-clip-joint.scad>
 
 CUTOUT_RADIUS = STRIP_WIDTH / 3.5;
 
@@ -56,9 +56,9 @@ module assembly() {
 
 module cutout_piece() {
     R2 = CUTOUT_RADIUS;
-    //R1 = R2 * 0.5;
+    R1 = R2 * 0.5;
     translate([0, 0, -1])
-        cylinder(h=STRIP_THICKNESS + 2, r1=R2, r2=R2, $fn=16);
+        cylinder(h=STRIP_THICKNESS + 2, r1=R1, r2=R2, $fn=16);
 }
 
 module cutout(COUNT = 2) {

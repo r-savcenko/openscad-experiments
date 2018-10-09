@@ -1,12 +1,12 @@
 SIDE_COUNT = 5;
 SIDE_WIDTH = 15;
-MODEL_HEIGHT = 3;
+MODEL_HEIGHT = 5;
 
 FLEX_JOINT_WIDTH = 1;
-FLEX_JOINT_HEIGHT = 0.4;
+FLEX_JOINT_HEIGHT = 0.6;
 
-SCALE_ADDON = 0.1;
-BASE_SIZE = SIDE_WIDTH / 5;
+SCALE_ADDON = 0.09;
+BASE_SIZE = SIDE_WIDTH / 3.5;
 
 VERTEX_ANGLE = (SIDE_COUNT - 2) * (180 / SIDE_COUNT);
 CENTER_ANGLE = 360 / SIDE_COUNT;
@@ -16,11 +16,11 @@ INNER_RADIUS = OUTER_RADIUS - BASE_SIZE;
 
 MID_RADIUS = sqrt( pow(OUTER_RADIUS, 2) - pow(SIDE_WIDTH / 2, 2) );
 
-JOINT_WIDTH = SIDE_WIDTH / 3;
+JOINT_WIDTH = 5;
 JOINT_SIDE_WIDTH = 5;
 JOINT_HEIGHT = MODEL_HEIGHT;
 
-include <common/hinge-clip-joint.scad>
+include <common/joint/hinge-clip-joint.scad>
 
 module extruded_poly(RADIUS = OUTER_RADIUS, KOEF = 1, HEIGHT = MODEL_HEIGHT / 2) {
     linear_extrude(height = HEIGHT, scale = 1 + SCALE_ADDON * KOEF)
@@ -53,7 +53,7 @@ module side_joint() {
     translate([X_DISTANCE, SIDE_WIDTH / 2 - JOINT_WIDTH / 2 - FLEX_JOINT_WIDTH * 2, 0])
         rotate([0, 0, -90]) hinge();
     translate([X_DISTANCE, 0 - SIDE_WIDTH / 2 + JOINT_WIDTH / 2 + FLEX_JOINT_WIDTH * 2, 0])
-        rotate([0, 0, -90]) clip();
+        rotate([0, 0, -90]) clip(true);
 }
 
 module assembly() {
