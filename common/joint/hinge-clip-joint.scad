@@ -18,8 +18,8 @@ JOINT_CORNER_RADIUS = 1;
 
 WALL_THICKNESS = 0.6;
 
-include <helpers/getValue.scad>
-include <support.scad>
+include <../helpers/getValue.scad>
+include <../support.scad>
 
 HINGE_SIDE_THICKNESS_ = getValue(HINGE_SIDE_THICKNESS, 1);
 CLIP_TOLERANCE_MARGIN_ = getValue(CLIP_TOLERANCE_MARGIN, 0.4);
