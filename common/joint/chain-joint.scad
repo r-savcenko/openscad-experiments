@@ -49,7 +49,7 @@ module joint_side_f() {
         joint_common_side();
         translate([0, JOINT_SIZE_Y_ - RADIUS, JOINT_SIZE_Z_ / 2])
           rotate([0, 90, 0])
-            cylinder(r = RADIUS / 2, r2 = RADIUS / 2.1, h = JOINT_CYLINDER_H * 1.1, $fn = 18);
+            cylinder(r = RADIUS / 1.85, r2 = RADIUS / 2.1, h = JOINT_CYLINDER_H * 1.1, $fn = 18);
         }
     }
   }

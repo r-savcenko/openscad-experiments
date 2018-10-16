@@ -51,9 +51,9 @@ module flex_cutout() {
 
 module side_joint() {
     X_DISTANCE = MID_RADIUS;
-    translate([X_DISTANCE, SIDE_WIDTH / 2 - JOINT_WIDTH / 2 - FLEX_JOINT_WIDTH * 2, 0])
+    translate([X_DISTANCE, SIDE_WIDTH / 2 - JOINT_SIZE_X / 2 - FLEX_JOINT_WIDTH * 2, 0])
         rotate([0, 0, -90]) joint_f();
-    translate([X_DISTANCE, 0 - SIDE_WIDTH / 2 + JOINT_WIDTH / 2 + FLEX_JOINT_WIDTH * 2, 0])
+    translate([X_DISTANCE, 0 - SIDE_WIDTH / 2 + JOINT_SIZE_X / 2 + FLEX_JOINT_WIDTH * 2, 0])
         rotate([0, 0, -90]) joint_m();
 }
 

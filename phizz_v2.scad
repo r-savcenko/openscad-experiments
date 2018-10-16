@@ -10,7 +10,13 @@ JOINT_SIZE_X = 5;
 JOINT_SIZE_Y = 6;
 JOINT_SIZE_Z = TRIANGLE_THICKNESS;
 
+JOINT_WIDTH = 5;
+JOINT_SIDE_WIDTH = TRIANGLE_THICKNESS;
+JOINT_HEIGHT = TRIANGLE_THICKNESS;
+HINGE_SIDE_THICKNESS = 1;
+
 include <common/joint/chain-joint.scad>
+include <common/joint/hinge-clip-joint.scad>
 
 module triangle() {
     X1 = 0 - TRIANGLE_WIDTH / 2;
@@ -22,6 +28,18 @@ module triangle() {
     Y3 = 0;
 
     linear_extrude(TRIANGLE_THICKNESS) polygon([[X1, Y1], [X2, Y2], [X3, Y3]]);
+}
+
+module joint_extension(WIDTH = 1) {
+    difference() {
+        rotate(180, [0, 0, 1])
+            translate([0, 0, 0])
+                cube([WIDTH, JOINT_WIDTH / 2, JOINT_HEIGHT]);
+        translate([1, 0 - JOINT_WIDTH / 2, 0])
+            rotate(-45, [1, 0, 0])
+                rotate(180, [0, 0, 1])
+                    cube([JOINT_WIDTH + 2, TRIANGLE_WIDTH / 4, JOINT_HEIGHT]);
+    }
 }
 
 module base() {
@@ -55,13 +73,37 @@ module base_model() {
           rotate(45, [0, 0, 1])
             joint_m();
 
-        translate([TRIANGLE_WIDTH / 2, 0, 0]) {
+        /* translate([TRIANGLE_WIDTH / 2, 0, 0]) {
             translate([0, 0, 0]) {
                 rotate([0, 0, 180]) {
                     translate([TRIANGLE_WIDTH / 8, 0, 0]) {
                         joint_f();
                         translate([TRIANGLE_WIDTH / 4, 0, 0])
                             joint_m();
+                    }
+                }
+            }
+        } */
+
+        translate([TRIANGLE_WIDTH / 2, 0, 0]) {
+            translate([0 - TRIANGLE_WIDTH / 8 + CLIP_WIDTH / 2, 0, 0])
+                joint_extension(CLIP_WIDTH);
+
+            CX = 0 - TRIANGLE_WIDTH / 4 - TRIANGLE_WIDTH / 8;
+            translate([CX - JOINT_WIDTH / 2 + HINGE_SIDE_THICKNESS, 0, 0])
+                joint_extension(HINGE_SIDE_THICKNESS);
+
+            translate([CX + JOINT_WIDTH / 2, 0, 0])
+                joint_extension(HINGE_SIDE_THICKNESS);
+
+            translate([0, 0 - JOINT_WIDTH / 2, 0]) {
+                rotate(180, [0, 0, 1]) {
+                    rotate(45, [1, 0, 0]) {
+                        translate([TRIANGLE_WIDTH / 8, 0, 0]) {
+                            clip();
+                            translate([TRIANGLE_WIDTH / 4, 0, 0])
+                                hinge();
+                        }
                     }
                 }
             }
