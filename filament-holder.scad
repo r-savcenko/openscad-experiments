@@ -1,6 +1,6 @@
 HOLDER_THICKNESS = 10;
-HOLDER_HEIGHT = 180;
-HOLDER_LENGTH = 175;
+HOLDER_HEIGHT = 175;
+HOLDER_LENGTH = 150;
 SPOOL_SIZE = 148.5;
 SPOOL_SIZE_MARGIN = 4;
 SPOOL_INNER_RADIUS = 53 / 2;
@@ -24,7 +24,7 @@ module base() {
         resize([HOLDER_LENGTH * 2 - 40 - SPOOL_INNER_RADIUS * 2, HOLDER_HEIGHT * 2])
           circle(r = HOLDER_HEIGHT, $fn = 128);
 
-    translate([40, 50, 0])
+    translate([35, 50, 0])
         cylinder(r1=15, r2=20, h=HOLDER_THICKNESS, $fn = 64);
   }
 }
@@ -71,13 +71,14 @@ module side_r() {
 }
 
 module bar_clip() {
+  BAR_HEIGHT_1 = BAR_HEIGHT - 0.2;
   linear_extrude(BAR_WIDTH)
     polygon([
       [0, 0],
       [0, BAR_HEIGHT],
       [BAR_CLIP_SIZE_X, BAR_CLIP_SIZE_Y],
-      [BAR_CLIP_SIZE_X, BAR_HEIGHT],
-      [BAR_CLIP_SIZE_X + HOLDER_THICKNESS, BAR_HEIGHT],
+      [BAR_CLIP_SIZE_X, BAR_HEIGHT_1],
+      [BAR_CLIP_SIZE_X + HOLDER_THICKNESS, BAR_HEIGHT_1],
       [BAR_CLIP_SIZE_X + HOLDER_THICKNESS, BAR_CLIP_SIZE_Y],
       [BAR_CLIP_SIZE_X * 2 + HOLDER_THICKNESS, BAR_HEIGHT],
       [BAR_CLIP_SIZE_X * 2 + HOLDER_THICKNESS, 0]
@@ -94,7 +95,6 @@ module bar() {
     bar_clip();
 
 }
-
 
 translate([-80, 0, 0]) bar();
 
