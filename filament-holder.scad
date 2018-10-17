@@ -1,5 +1,5 @@
-HOLDER_THICKNESS = 16;
-HOLDER_HEIGHT = 175;
+HOLDER_THICKNESS = 10;
+HOLDER_HEIGHT = 180;
 HOLDER_LENGTH = 175;
 SPOOL_SIZE = 100;
 SPOOL_SIZE_MARGIN = 4;
@@ -12,11 +12,7 @@ BAR_CLIP_SIZE_Y= 30;
 BAR_WIDTH = 10;
 BAR_HEIGHT = 7;
 
-module guide() {
-    cylinder(h = HOLDER_THICKNESS / 2, r1 = SPOOL_INNER_RADIUS, r2 = SPOOL_INNER_RADIUS * 0.75, $fn = 64);
-    translate([0, 0, HOLDER_THICKNESS / 2])
-      cylinder(h = HOLDER_THICKNESS / 2, r1 = SPOOL_INNER_RADIUS * 0.75, r2 = SPOOL_INNER_RADIUS, $fn = 64);
-}
+ROD_RADIUS = 8 / 2;
 
 module base() {
   difference() {
@@ -24,22 +20,19 @@ module base() {
       square([HOLDER_LENGTH, HOLDER_HEIGHT]);
 
     linear_extrude(HOLDER_THICKNESS)
-      translate([HOLDER_LENGTH, HOLDER_HEIGHT + 10, 0])
+      translate([HOLDER_LENGTH - 10, HOLDER_HEIGHT + 10, 0])
         resize([HOLDER_LENGTH * 2 - 40 - SPOOL_INNER_RADIUS * 2, HOLDER_HEIGHT * 2])
           circle(r = HOLDER_HEIGHT, $fn = 64);
+
+    translate([40, 50, 0])
+        cylinder(r1=15, r2=20, h=HOLDER_THICKNESS, $fn = 64);
   }
 }
 
-module spool_axis() {
-  translate([0, HOLDER_HEIGHT + 2, 0]) {
-    guide();
-
-    translate([0, 0, HOLDER_SIDE_DISTANCE + HOLDER_THICKNESS])
-      guide();
-
-    translate([0, 0, HOLDER_THICKNESS])
-      cylinder(h = HOLDER_SIDE_DISTANCE, r = SPOOL_INNER_RADIUS, $fn = 64);
-  }
+module guide() {
+  RADIUS = ROD_RADIUS + 0.5;
+  translate([0, -10, 0]) cylinder(r=RADIUS, h=HOLDER_THICKNESS, $fn=32);
+  translate([0, -10, 0]) cube([RADIUS, 20, HOLDER_THICKNESS]);
 }
 
 module side() {
@@ -93,17 +86,19 @@ module bar_clip() {
 
 module bar() {
   bar_clip();
-  translate([BAR_CLIP_SIZE_X * 2 + HOLDER_THICKNESS, 0, 0]) cube([HOLDER_SIDE_DISTANCE - BAR_CLIP_SIZE_X * 2, BAR_HEIGHT, BAR_WIDTH]);
-  translate([HOLDER_THICKNESS + HOLDER_SIDE_DISTANCE, 0, 0]) bar_clip();
+
+  translate([BAR_CLIP_SIZE_X * 2 + HOLDER_THICKNESS, 0, 0])
+    cube([HOLDER_SIDE_DISTANCE - BAR_CLIP_SIZE_X * 2, BAR_HEIGHT, BAR_WIDTH]);
+
+  translate([HOLDER_THICKNESS + HOLDER_SIDE_DISTANCE, 0, 0])
+    bar_clip();
 
 }
 
-/* side(); */
 
-bar();
+translate([-80, 0, 0]) bar();
 
-translate([0, 100, 0]) {
-  spool_axis();
+translate([0, 50, 0]) {
   render() {
     translate([20, 0, 0]) side_l();
     translate([-20, 0, 0]) side_r();
