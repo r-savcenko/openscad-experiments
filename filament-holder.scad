@@ -1,7 +1,7 @@
 HOLDER_THICKNESS = 10;
 HOLDER_HEIGHT = 180;
 HOLDER_LENGTH = 175;
-SPOOL_SIZE = 100;
+SPOOL_SIZE = 148.5;
 SPOOL_SIZE_MARGIN = 4;
 SPOOL_INNER_RADIUS = 53 / 2;
 
@@ -22,7 +22,7 @@ module base() {
     linear_extrude(HOLDER_THICKNESS)
       translate([HOLDER_LENGTH - 10, HOLDER_HEIGHT + 10, 0])
         resize([HOLDER_LENGTH * 2 - 40 - SPOOL_INNER_RADIUS * 2, HOLDER_HEIGHT * 2])
-          circle(r = HOLDER_HEIGHT, $fn = 64);
+          circle(r = HOLDER_HEIGHT, $fn = 128);
 
     translate([40, 50, 0])
         cylinder(r1=15, r2=20, h=HOLDER_THICKNESS, $fn = 64);
