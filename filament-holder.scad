@@ -2,7 +2,7 @@ HOLDER_THICKNESS = 10;
 HOLDER_HEIGHT = 175;
 HOLDER_LENGTH = 150;
 SPOOL_SIZE = 148.5;
-SPOOL_SIZE_MARGIN = 4;
+SPOOL_SIZE_MARGIN = 0;
 SPOOL_INNER_RADIUS = 53 / 2;
 
 HOLDER_SIDE_DISTANCE = SPOOL_SIZE + SPOOL_SIZE_MARGIN;
@@ -71,7 +71,7 @@ module side_r() {
 }
 
 module bar_clip() {
-  BAR_HEIGHT_1 = BAR_HEIGHT - 0.2;
+  BAR_HEIGHT_1 = BAR_HEIGHT - 0.6;
   linear_extrude(BAR_WIDTH)
     polygon([
       [0, 0],
