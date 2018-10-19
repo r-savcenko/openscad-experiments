@@ -1,4 +1,4 @@
-HOLDER_THICKNESS = 10;
+HOLDER_THICKNESS = 6;
 HOLDER_HEIGHT = 175;
 HOLDER_LENGTH = 150;
 SPOOL_SIZE = 148.5;
@@ -8,11 +8,14 @@ SPOOL_INNER_RADIUS = 53 / 2;
 HOLDER_SIDE_DISTANCE = SPOOL_SIZE + SPOOL_SIZE_MARGIN;
 
 BAR_CLIP_SIZE_X = 15;
-BAR_CLIP_SIZE_Y= 30;
-BAR_WIDTH = 10;
-BAR_HEIGHT = 7;
+BAR_CLIP_SIZE_Y= 20;
+BAR_CLIP_SIZE_Y_OUTER= 17.5;
+BAR_WIDTH = 6;
+BAR_HEIGHT = 6;
 
 ROD_RADIUS = 8 / 2;
+
+JOINT_MARGIN = 0.6;
 
 module base() {
   difference() {
@@ -21,16 +24,22 @@ module base() {
 
     linear_extrude(HOLDER_THICKNESS)
       translate([HOLDER_LENGTH - 10, HOLDER_HEIGHT + 10, 0])
-        resize([HOLDER_LENGTH * 2 - 40 - SPOOL_INNER_RADIUS * 2, HOLDER_HEIGHT * 2])
+        resize([HOLDER_LENGTH * 2 - SPOOL_INNER_RADIUS * 2, HOLDER_HEIGHT * 2])
           circle(r = HOLDER_HEIGHT, $fn = 128);
 
-    translate([35, 50, 0])
-        cylinder(r1=15, r2=20, h=HOLDER_THICKNESS, $fn = 64);
+    translate([35, 40, 0])
+      cylinder(r1=15, r2=20, h=HOLDER_THICKNESS, $fn = 64);
+
+    translate([20, 80, 0])
+      cylinder(r1=8, r2=13, h=HOLDER_THICKNESS, $fn = 64);
+
+    translate([70, 18, 0])
+      cylinder(r1=5, r2=10, h=HOLDER_THICKNESS, $fn = 64);
   }
 }
 
 module guide() {
-  RADIUS = ROD_RADIUS + 0.5;
+  RADIUS = ROD_RADIUS + JOINT_MARGIN;
   translate([0, -10, 0]) cylinder(r=RADIUS, h=HOLDER_THICKNESS, $fn=32);
   translate([0, -10, 0]) cube([RADIUS, 20, HOLDER_THICKNESS]);
 }
@@ -48,10 +57,20 @@ module side() {
 }
 
 module side_clip(OFFSET = 0) {
-  union() {
-    translate([-10, 0, -OFFSET / 2]) linear_extrude(HOLDER_THICKNESS + OFFSET) square([5, 30]);
-    translate([-5, 10, -OFFSET / 2]) linear_extrude(HOLDER_THICKNESS + OFFSET) square([10, 10]);
-  }
+  COORDS = [
+    [-10, 0],
+    [-10, 30],
+    [-5, 30],
+    [-5, 20],
+    [0, 20],
+    [0, 10],
+    [-5,10],
+    [-5, 0]
+  ];
+  translate([0, 0, -OFFSET/2])
+    linear_extrude(HOLDER_THICKNESS + OFFSET)
+      offset(delta =  OFFSET)
+        polygon(COORDS);
 }
 
 module side_l() {
@@ -65,18 +84,18 @@ module side_l() {
 module side_r() {
   difference() {
       mirror([1, 0, 0]) side();
-      translate([0, 10, 0]) side_clip(10);
-      translate([0, 100, 0]) side_clip(10);
+      translate([0, 10, 0]) side_clip(JOINT_MARGIN);
+      translate([0, 100, 0]) side_clip(JOINT_MARGIN);
   }
 }
 
 module bar_clip() {
-  BAR_HEIGHT_1 = BAR_HEIGHT - 0.6;
+  BAR_HEIGHT_1 = BAR_HEIGHT - JOINT_MARGIN;
   linear_extrude(BAR_WIDTH)
     polygon([
       [0, 0],
       [0, BAR_HEIGHT],
-      [BAR_CLIP_SIZE_X, BAR_CLIP_SIZE_Y],
+      [BAR_CLIP_SIZE_X, BAR_CLIP_SIZE_Y_OUTER],
       [BAR_CLIP_SIZE_X, BAR_HEIGHT_1],
       [BAR_CLIP_SIZE_X + HOLDER_THICKNESS, BAR_HEIGHT_1],
       [BAR_CLIP_SIZE_X + HOLDER_THICKNESS, BAR_CLIP_SIZE_Y],
@@ -91,16 +110,8 @@ module bar() {
   translate([BAR_CLIP_SIZE_X * 2 + HOLDER_THICKNESS, 0, 0])
     cube([HOLDER_SIDE_DISTANCE - BAR_CLIP_SIZE_X * 2, BAR_HEIGHT, BAR_WIDTH]);
 
-  translate([HOLDER_THICKNESS + HOLDER_SIDE_DISTANCE, 0, 0])
-    bar_clip();
+  translate([HOLDER_THICKNESS * 2 + HOLDER_SIDE_DISTANCE + BAR_CLIP_SIZE_X * 2, 0, 0])
+    mirror([1, 0, 0])
+      bar_clip();
 
-}
-
-translate([-80, 0, 0]) bar();
-
-translate([0, 50, 0]) {
-  render() {
-    translate([20, 0, 0]) side_l();
-    translate([-20, 0, 0]) side_r();
-  }
 }
