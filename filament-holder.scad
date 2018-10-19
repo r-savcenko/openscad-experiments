@@ -67,7 +67,7 @@ module side_clip(OFFSET = 0) {
     [-5,10],
     [-5, 0]
   ];
-  translate([0, 0, -OFFSET/2])
+  translate([OFFSET/2, 0, -OFFSET/2])
     linear_extrude(HOLDER_THICKNESS + OFFSET)
       offset(delta =  OFFSET)
         polygon(COORDS);
@@ -114,4 +114,13 @@ module bar() {
     mirror([1, 0, 0])
       bar_clip();
 
+}
+
+translate([-80, 0, 0]) bar();
+
+translate([0, 50, 0]) {
+  render() {
+    translate([0, 0, 0]) side_l();
+    translate([0, 0, 0]) side_r();
+  }
 }
