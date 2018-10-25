@@ -53,7 +53,7 @@ module base() {
             union() {
                 for(i=[1:ITERATIONS])
                     translate([0, 0 - STEP * 4, TRIANGLE_THICKNESS - STEP * i * 2])
-                        scale([0.6 - STEP * i / 4, 0.6 - STEP * i / 4, 1])
+                        scale([0.5 - STEP * i / 4, 0.5 - STEP * i / 4, 1])
                             translate([0, 0 - TRIANGLE_WIDTH / 5, 0])
                                 triangle();
             }
