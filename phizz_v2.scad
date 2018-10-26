@@ -6,7 +6,7 @@ FLEX_JOINT_HEIGHT = 0.6;
 
 /** DO NOT EDIT FOLLOWING VARS **/
 
-JOINT_SIZE_X = 7;
+JOINT_SIZE_X = 6.5;
 JOINT_SIZE_Y = 6;
 JOINT_SIZE_Z = TRIANGLE_THICKNESS;
 
@@ -73,7 +73,7 @@ module base_model() {
           rotate(45, [0, 0, 1])
             joint_m();
 
-        /* translate([TRIANGLE_WIDTH / 2, 0, 0]) {
+        translate([TRIANGLE_WIDTH / 2, 0, 0]) {
             translate([0, 0, 0]) {
                 rotate([0, 0, 180]) {
                     translate([TRIANGLE_WIDTH / 8, 0, 0]) {
@@ -83,9 +83,9 @@ module base_model() {
                     }
                 }
             }
-        } */
+        }
 
-        translate([TRIANGLE_WIDTH / 2, 0, 0]) {
+        /* translate([TRIANGLE_WIDTH / 2, 0, 0]) {
             translate([0 - TRIANGLE_WIDTH / 8 + CLIP_WIDTH / 2, 0, 0])
                 joint_extension(CLIP_WIDTH);
 
@@ -107,7 +107,7 @@ module base_model() {
                     }
                 }
             }
-        }
+        } */
     }
 }
 
