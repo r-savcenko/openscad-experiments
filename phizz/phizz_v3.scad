@@ -1,4 +1,4 @@
-TRIANGLE_WIDTH = 30;
+TRIANGLE_WIDTH = 35;
 TRIANGLE_THICKNESS = 5;
 
 FLEX_JOINT_WIDTH = 1;
@@ -26,7 +26,7 @@ module joint_f(SY = JOINT_SIZE_Y) {
 
 include <./../common/joint-v2/chain.scad>
 
-module triangle() {
+module triangle_base(OFFSET = 0) {
     X1 = 0 - TRIANGLE_WIDTH / 2;
     X2 = 0;
     X3 = TRIANGLE_WIDTH / 2;
@@ -34,11 +34,16 @@ module triangle() {
     Y1 = 0;
     Y2 = TRIANGLE_WIDTH / 2;
     Y3 = 0;
+    offset(delta = 0 - OFFSET) {
+        polygon([[X1, Y1], [X2, Y2], [X3, Y3]]);
+    }
+}
 
+module triangle(SCALE = 1) {
     translate([0, TRIANGLE_WIDTH / 2, 0])
-        linear_extrude(height = TRIANGLE_THICKNESS, scale=0.9)
+        linear_extrude(height = TRIANGLE_THICKNESS, scale=SCALE)
             translate([0, 0 - TRIANGLE_WIDTH / 2, 0])
-                polygon([[X1, Y1], [X2, Y2], [X3, Y3]]);
+                triangle_base();
 }
 
 module joint_extension(WIDTH = 1) {
@@ -53,22 +58,19 @@ module joint_extension(WIDTH = 1) {
     }
 }
 
-module base() {
-    STEP = 0.2;
-    SCALE_STEP = 1 - STEP;
-    ITERATIONS = 6;
+module cutout() {
+    translate([0, 0.5, 0])
+        mirror([0, 0, 1])
+            linear_extrude(height = TRIANGLE_THICKNESS / 3, scale = 0.5)
+                translate([0, 0 - TRIANGLE_WIDTH / 4, 0])
+                    triangle_base(3.5);
+}
 
+module base() {
     difference() {
-        triangle();
-        translate([0, TRIANGLE_WIDTH / 4.5, 0]) {
-            union() {
-                for(i=[1:ITERATIONS])
-                    translate([0, 0 - STEP * 4, TRIANGLE_THICKNESS - STEP * i * 2])
-                        scale([0.4 - STEP * i / 4, 0.4 - STEP * i / 4, 1])
-                            translate([0, 0 - TRIANGLE_WIDTH / 5, 0])
-                                triangle();
-            }
-        }
+        triangle(0.9);
+        translate([0, TRIANGLE_WIDTH / 4, TRIANGLE_THICKNESS])
+            cutout();
     }
 }
 
@@ -99,11 +101,15 @@ module base_model() {
 }
 
 module assembly() {
+    FLEX_H = TRIANGLE_THICKNESS - FLEX_JOINT_HEIGHT;
     difference() {
         base_model();
-        translate([0 - FLEX_JOINT_WIDTH / 2, -0.1, FLEX_JOINT_HEIGHT])
-            cube([FLEX_JOINT_WIDTH, TRIANGLE_WIDTH, TRIANGLE_THICKNESS]);
+        translate([0, 0, FLEX_JOINT_HEIGHT])
+            linear_extrude(height = FLEX_H, scale = [3.5, 1])
+                translate([0 - FLEX_JOINT_WIDTH / 2, 0, 0])
+                    square([FLEX_JOINT_WIDTH, TRIANGLE_WIDTH]);
     }
 }
 
 assembly();
+/* base(); */
