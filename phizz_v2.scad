@@ -84,30 +84,6 @@ module base_model() {
                 }
             }
         }
-
-        /* translate([TRIANGLE_WIDTH / 2, 0, 0]) {
-            translate([0 - TRIANGLE_WIDTH / 8 + CLIP_WIDTH / 2, 0, 0])
-                joint_extension(CLIP_WIDTH);
-
-            CX = 0 - TRIANGLE_WIDTH / 4 - TRIANGLE_WIDTH / 8;
-            translate([CX - JOINT_WIDTH / 2 + HINGE_SIDE_THICKNESS, 0, 0])
-                joint_extension(HINGE_SIDE_THICKNESS);
-
-            translate([CX + JOINT_WIDTH / 2, 0, 0])
-                joint_extension(HINGE_SIDE_THICKNESS);
-
-            translate([0, 0 - JOINT_WIDTH / 2, 0]) {
-                rotate(180, [0, 0, 1]) {
-                    rotate(45, [1, 0, 0]) {
-                        translate([TRIANGLE_WIDTH / 8, 0, 0]) {
-                            clip();
-                            translate([TRIANGLE_WIDTH / 4, 0, 0])
-                                hinge();
-                        }
-                    }
-                }
-            }
-        } */
     }
 }
 
