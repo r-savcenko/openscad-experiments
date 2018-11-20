@@ -19,14 +19,18 @@ for(idx=[0:len(_STD_TABLE)-1]) {
 }
 echo("-----------------------------");
 
-module m_nut(inner, outer, nut_height, model_height) {
+module m_nut(inner, outer, nut_height, model_height, fn=6) {
     translate([0, 0, model_height]) {
         mirror([0, 0, 1]) {
             cylinder(r=inner/2 + SAFE_MARGIN * 2, h=model_height, center=false, $fn = 32);
             linear_extrude(nut_height)
-                circle(outer / 2 + SAFE_MARGIN / 2, center=false, $fn=6);
+                circle(outer / 2 + SAFE_MARGIN / 2, center=false, $fn=fn);
         }
     }
+}
+
+module m_bolt(inner, outer, nut_height, model_height) {
+    m_nut(inner, outer, nut_height, model_height, fn=32);
 }
 
 module m_nut_cutout(
@@ -43,6 +47,25 @@ module m_nut_cutout(
         for(i=[0:len(coords) - 1]) {
             translate([coords[i][0], coords[i][1], 0])
                 m_nut(inner = HOLE_DIAMETER, outer = DIAMETER, nut_height = HEIGHT, model_height = height);
+        }
+    }
+}
+
+module m_bolt_cutout(
+    std_idx = 0,
+    height = 10,
+    coords = [],
+    cap_height
+) {
+    HOLE_DIAMETER = _STD_TABLE[std_idx][0];
+    HEIGHT = cap_height == undef ? _STD_TABLE[std_idx][1] : cap_height;
+    DIAMETER = _STD_TABLE[std_idx][2];
+
+    difference() {
+        children();
+        for(i=[0:len(coords) - 1]) {
+            translate([coords[i][0], coords[i][1], 0])
+                m_bolt(inner = HOLE_DIAMETER, outer = DIAMETER, nut_height = HEIGHT, model_height = height);
         }
     }
 }

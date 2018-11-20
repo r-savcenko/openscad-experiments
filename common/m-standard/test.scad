@@ -1,12 +1,17 @@
-include <./nut.scad>
+include <./nut-bolt.scad>
 
-COORDS = [
-    [8, 8]
+COORDS1 = [
+    [7, 8]
 ];
 
+COORDS2 = [
+    [17, 8]
+];
+
+HEIGHT = 15;
 
 render() {
-    m_nut_cutout(std_idx = 1, height = 5, coords = COORDS) {
-        cube([16, 16, 5]);
-    };
+    m_bolt_cutout(std_idx = 1, height = HEIGHT, coords = COORDS2, cap_height = 3)
+        m_nut_cutout(std_idx = 1, height = HEIGHT, coords = COORDS1)
+            cube([24, 16, HEIGHT]);
 }
