@@ -6,6 +6,8 @@ _STD_TABLE = [
     [5, 4.49, 9]
 ];
 
+SAFE_MARGIN = 0.2;
+
 echo("-----------------------------");
 echo("Size indexes");
 for(idx=[0:len(_STD_TABLE)-1]) {
@@ -16,9 +18,9 @@ echo("-----------------------------");
 module m_nut(inner, outer, nut_height, model_height) {
     translate([0, 0, model_height]) {
         mirror([0, 0, 1]) {
-            cylinder(r=inner/2, h=model_height, center=false, $fn = 32);
+            cylinder(r=inner/2 + SAFE_MARGIN / 2, h=model_height, center=false, $fn = 32);
             linear_extrude(nut_height)
-                circle(outer / 2, center=false, $fn=6);
+                circle(outer / 2 + SAFE_MARGIN / 2, center=false, $fn=6);
         }
     }
 }
