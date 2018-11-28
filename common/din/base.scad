@@ -1,3 +1,5 @@
+DIN_TOLERANCE = 0.1;
+
 module din_help(name, _STD_TABLE) {
     echo("-----------------------------");
     echo(str("Size indexes for ", name));
@@ -10,8 +12,8 @@ module din_help(name, _STD_TABLE) {
 module din_cutout_base(inner, outer, cap_height, height, fn) {
     translate([0, 0, height]) {
         mirror([0, 0, 1]) {
-            cylinder(r=outer/2, h=cap_height, center=false, $fn = fn);
-            cylinder(r=inner/2, h=height, center=false, $fn = 32);
+            cylinder(r=outer/2 + DIN_TOLERANCE, h=cap_height, center=false, $fn = fn);
+            cylinder(r=inner/2 + DIN_TOLERANCE, h=height, center=false, $fn = 32);
         }
     }
 }
