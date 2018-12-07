@@ -1,4 +1,35 @@
-include <vars.scad>
+/* [Params:] */
+// Outer radius of the cell
+outer_r = 25; // [20:50]
+
+// Height of the cell
+height = 60; // [30:150]
+
+// Walls' thickness
+thickness = 2; // [2:0.1:3]
+
+// Tolerance in (mm)
+tolerance = 0.075; // [0:0.005:0.1]
+
+/* [Render:] */
+// Cell
+render_cell = true;
+
+// Cell joints
+render_joints = true;
+
+// Drawer
+render_drawer = true;
+
+/* [Hidden] */
+sides = 6;
+r_koef = 0.5;
+
+side_angle = 360 / sides;
+side_distance = cos(side_angle / 2) * outer_r;
+
+inner_angle = 90 - side_angle;
+wall_thickness = cos(inner_angle) * thickness;
 
 module cell_joint(off = 0.075) {
     width = wall_thickness * 1.2;
@@ -50,3 +81,16 @@ module cell() {
         }
     }
 }
+
+    if (render_cell) {
+        cell();
+    };
+
+    if (render_joints) {
+        translate([-15, outer_r, 0]) cell_joint();
+        translate([-10, outer_r, 0]) cell_joint();
+        translate([-5, outer_r, 0]) cell_joint();
+        translate([5, outer_r, 0]) cell_joint();
+        translate([10, outer_r, 0]) cell_joint();
+        translate([15, outer_r, 0]) cell_joint();
+    }
