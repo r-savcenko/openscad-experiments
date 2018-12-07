@@ -1,14 +1,14 @@
 /* [Params:] */
-// Outer radius of the cell
+// Outer radius of the cell (mm)
 outer_r = 25; // [20:50]
 
-// Height of the cell
+// Height of the cell (mm)
 height = 60; // [30:150]
 
-// Walls' thickness
+// Walls' thickness (mm)
 thickness = 2; // [2:0.1:3]
 
-// Tolerance in (mm)
+// Tolerance (mm)
 tolerance = 0.075; // [0:0.005:0.1]
 
 /* [Render:] */
