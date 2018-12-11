@@ -1,15 +1,29 @@
-/* [Params:] */
+/* [Cell settings:] */
 // Outer radius of the cell (mm)
-outer_r = 25; // [20:50]
+outer_r = 25; // [20:100]
 
 // Height of the cell (mm)
-height = 60; // [30:150]
+height = 20; // [10:150]
 
 // Walls' thickness (mm)
-thickness = 2; // [2:0.1:3]
+thickness = 2; // [2:0.1:5]
+
+// Bottom sides' thickness (mm)
+bottom_thickness = 2; // [2:0.1:5]
+
+// Bottom height (mm)
+bottom_height = 2; // [1:0.1:5]
+
+/* [Joint settings:] */
+// Width (mm)
+joint_width = 3; // [1:0.1:5]
+
+// Height (mm)
+joint_height = 2; // [1:0.1:5]
 
 // Tolerance (mm)
-tolerance = 0.075; // [0:0.005:0.1]
+tolerance = 0.1; // [0:0.005:0.2]
+
 
 /* [Render:] */
 // Cell
@@ -31,16 +45,17 @@ side_distance = cos(side_angle / 2) * outer_r;
 inner_angle = 90 - side_angle;
 wall_thickness = cos(inner_angle) * thickness;
 
-module cell_joint(off = 0.075) {
-    width = wall_thickness * 1.2;
+module cell_joint(off = tolerance) {
+    width = joint_width;
+    offset = wall_thickness * 0.6;
     poly_coords = [
         [0, 0],
         [width, 0],
-        [wall_thickness * 0.9, wall_thickness],
-        [wall_thickness * 0.3, wall_thickness]
+        [width - offset, wall_thickness],
+        [offset, wall_thickness]
     ];
     translate([-width / 2, 0, 0]) {
-        linear_extrude(thickness / 2) {
+        linear_extrude(joint_height) {
             offset(delta = off) {
                 polygon(poly_coords);
                 translate([0, wall_thickness * 2, 0])
@@ -54,28 +69,28 @@ module cell_joint(off = 0.075) {
 module cell() {
     difference() {
         union() {
-            linear_extrude(height + thickness) {
+            linear_extrude(height + bottom_height) {
                 difference() {
                     circle(r=outer_r, $fn=sides);
                     circle(r=outer_r - thickness, $fn=sides);
                 }
             }
 
-            linear_extrude(thickness / 2) {
+            linear_extrude(bottom_height) {
                 for (i=[0:5]) {
-                    rotate([0, 0, i * side_angle]) translate([outer_r * r_koef - thickness / 2, 0 - thickness / 2, 0]) square([outer_r - outer_r * r_koef, thickness]);
+                    rotate([0, 0, i * side_angle]) translate([outer_r * r_koef - bottom_thickness / 3, 0 - bottom_thickness / 2, 0]) square([outer_r - outer_r * r_koef, bottom_thickness]);
                 }
 
                 difference() {
                     circle(r=outer_r * r_koef, $fn=sides);
-                    circle(r=outer_r * r_koef - thickness, $fn=sides);
+                    circle(r=outer_r * r_koef - bottom_thickness, $fn=sides);
                 }
             }
         }
-        for(x=[0,1]) {
+        for(x=[0:1]) {
             for (i=[0:5]) {
                 rotate([0, 0, i * side_angle])
-                    translate([0, side_distance - wall_thickness, x * height + x * thickness / 2])
+                    translate([0, side_distance - wall_thickness, x * height + x * bottom_height - x * joint_height])
                         cell_joint();
             }
         }
@@ -87,10 +102,11 @@ module cell() {
     };
 
     if (render_joints) {
-        translate([-15, outer_r, 0]) cell_joint();
-        translate([-10, outer_r, 0]) cell_joint();
-        translate([-5, outer_r, 0]) cell_joint();
-        translate([5, outer_r, 0]) cell_joint();
-        translate([10, outer_r, 0]) cell_joint();
-        translate([15, outer_r, 0]) cell_joint();
+        general_offset = joint_width + 3;
+        translate([-general_offset * 3, outer_r, 0]) cell_joint(0);
+        translate([-general_offset * 2, outer_r, 0]) cell_joint(0);
+        translate([-general_offset, outer_r, 0]) cell_joint(0);
+        translate([general_offset, outer_r, 0]) cell_joint(0);
+        translate([general_offset * 2, outer_r, 0]) cell_joint(0);
+        translate([general_offset * 3, outer_r, 0]) cell_joint(0);
     }

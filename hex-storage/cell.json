@@ -1,0 +1,35 @@
+{
+    "parameterSets": {
+        "design default values": {
+            "bottom_height": "2",
+            "bottom_thickness": "2",
+            "height": "20",
+            "joint_height": "2",
+            "joint_width": "3",
+            "outer_r": "25",
+            "r_koef": "0.5",
+            "render_cell": "true",
+            "render_drawer": "true",
+            "render_joints": "true",
+            "sides": "6",
+            "thickness": "2",
+            "tolerance": "0.1"
+        },
+        "test": {
+            "bottom_height": "2",
+            "bottom_thickness": "2",
+            "height": "10",
+            "joint_height": "2",
+            "joint_width": "5",
+            "outer_r": "20",
+            "r_koef": "0.5",
+            "render_cell": "true",
+            "render_drawer": "true",
+            "render_joints": "true",
+            "sides": "6",
+            "thickness": "2.5",
+            "tolerance": "0.11"
+        }
+    },
+    "fileFormatVersion": "1"
+}
