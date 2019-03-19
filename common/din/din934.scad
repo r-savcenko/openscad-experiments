@@ -29,6 +29,8 @@ module din934(m_idx, height, coords) {
 
 din934_help();
 
+/*
 din934(9, 10, [[5, 5]]) {
     cube([10, 10, 10]);
 }
+*/
