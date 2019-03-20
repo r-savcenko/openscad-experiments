@@ -27,7 +27,7 @@ module din912(m_idx, height, coords) {
     }
 }
 
-din912_help();
+/* din912_help(); */
 
 /*
 din912(1, 10, [[5, 5]]) {
