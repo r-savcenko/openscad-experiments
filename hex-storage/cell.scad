@@ -37,7 +37,7 @@ render_drawer = true;
 
 /* [Hidden] */
 sides = 6;
-r_koef = 0.5;
+r_koef = 0.6;
 
 side_angle = 360 / sides;
 side_distance = cos(side_angle / 2) * outer_r;
