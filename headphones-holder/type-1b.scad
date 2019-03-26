@@ -26,7 +26,14 @@ module mock() {
 module ear() {
     translate([0, 0, 0])
         rotate([-90, 0, 0])
-            din912(1, thickness + 0.01, [[5, 5]])
+            din912(1, thickness, [[5, 5]])
+                cube([ear_size, joint_height, thickness]);
+}
+
+module ear2() {
+    translate([0, 0, 0])
+        rotate([-90, 0, 0])
+            din934(9, thickness, [[5, 5]])
                 cube([ear_size, joint_height, thickness]);
 }
 
@@ -41,11 +48,13 @@ module hook() {
 
 module front_part() {
     union() {
-        translate([0, 0, 0])
-            cube([leg_side + ear_size * 2 + thickness * 2, thickness, front_height + thickness]);
+        rotate([90, 0, 0])
+            mirror([0, 0, 1])
+                din912(1, thickness, [[5, 5], [leg_side + ear_size + thickness * 2 + 5, 5]])
+                    cube([leg_side + ear_size * 2 + thickness * 2, front_height + thickness, thickness]);
 
         translate([0, -leg_side - ear_size - thickness * 2, front_height])
-            din934(9, thickness + 0.01, [[5, 5], [leg_side + ear_size + thickness * 2 + 5, 5]])
+            din934(9, thickness, [[5, 5], [leg_side + ear_size + thickness * 2 + 5, 5]])
                 cube([leg_side + ear_size * 2 + thickness * 2, leg_side + ear_size + thickness * 2, thickness]);
 
         translate([0, 0, front_height - headphones_joint_size])
@@ -54,7 +63,7 @@ module front_part() {
     }
 }
 
-module back_part() {
+module back_part1() {
     translate([0, - leg_side - thickness, front_height - bolt_height])
         rotate([-90, 0, 0])
                 ear();
@@ -72,9 +81,28 @@ module back_part() {
     }
 }
 
+module back_part2() {
+    translate([0, - leg_side - thickness, front_height - bolt_height])
+        rotate([-90, 0, 0])
+                ear2();
+
+    translate([leg_side + thickness * 2 + ear_size, - leg_side - thickness, front_height - bolt_height])
+        rotate([-90, 0, 0])
+                ear2();
+
+    translate([ear_size,  - leg_side - joint_height - thickness, front_height - leg_side - thickness]) {
+        difference() {
+            cube([leg_side + thickness * 2, joint_height, leg_side - bolt_height + thickness]);
+            translate([thickness, 0, thickness])
+                cube([leg_side, joint_height, leg_side - bolt_height + thickness]);
+        }
+    }
+}
+
 translate([ear_size + thickness, -leg_side, front_height - leg_side]) mock();
 
-color(c = [0, 1, 0])
-    front_part();
+front_part();
 
-back_part();
+back_part1();
+
+translate([0, -40, 0]) back_part2();
