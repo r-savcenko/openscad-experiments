@@ -2,7 +2,7 @@ cable_canal_diameter = [5, 4, 3, 4, 5];
 
 cable_canal_max_diameter = 5;
 
-cable_canal_diameter_offset = 0.8;
+cable_canal_diameter_offset = 0.2;
 
 canal_gutter = 2;
 
@@ -10,7 +10,7 @@ base_width = 50;
 
 base_length = 21.5;
 
-base_height = 3;
+base_height = 3.5;
 
 base_rounding = 2.5;
 
@@ -32,13 +32,14 @@ module base() {
 }
 
 module canal(diameter) {
+    offset = diameter * cable_canal_diameter_offset;
     translate([diameter / 2, base_length + 1, cable_canal_z_offset]) {
         rotate([0, -90, 90]) {
             translate([diameter / 2, diameter / 2, 0])
                 cylinder(r=diameter/2, h=base_length + 2);
 
-            translate([diameter / 2, cable_canal_diameter_offset / 2, 0])
-                cube([10, diameter - cable_canal_diameter_offset, base_length + 2]);
+            translate([diameter / 2, offset / 2, 0])
+                cube([10, diameter - offset, base_length + 2]);
         }
     }
 }
