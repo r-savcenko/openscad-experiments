@@ -1,20 +1,20 @@
-cable_canal_diameter = [5, 4, 3, 4, 5];
+canal_sizes = [5, 4, 3, 4, 5];
 
-cable_canal_max_diameter = 5;
+canal_max_diameter = 5;
 
-cable_canal_diameter_offset = 0.2;
+canal_size_offset = 0.3;
 
-canal_gutter = 2;
+canal_gutter = 3;
 
 base_width = 50;
 
 base_length = 21.5;
 
-base_height = 3.5;
+base_height = 5;
 
 base_rounding = 2.5;
 
-cable_canal_z_offset = 1.6;
+canal_z_offset = 1.6;
 
 $fn = 32;
 
@@ -32,8 +32,8 @@ module base() {
 }
 
 module canal(diameter) {
-    offset = diameter * cable_canal_diameter_offset;
-    translate([diameter / 2, base_length + 1, cable_canal_z_offset]) {
+    offset = diameter * canal_size_offset;
+    translate([diameter / 2, base_length + 1, base_height + base_rounding - diameter]) {
         rotate([0, -90, 90]) {
             translate([diameter / 2, diameter / 2, 0])
                 cylinder(r=diameter/2, h=base_length + 2);
@@ -47,17 +47,17 @@ module canal(diameter) {
 
 difference() {
     base();
-    if (len(cable_canal_diameter) == 1) {
+    if (len(canal_sizes) == 1) {
         sx = base_width / 2;
         translate([sx, 0, 0])
-            canal(cable_canal_diameter[0]);
+            canal(canal_sizes[0]);
     } else {
-        canals_width = cable_canal_max_diameter * (len(cable_canal_diameter) - 1) + canal_gutter * (len(cable_canal_diameter) - 1);
+        canals_width = canal_max_diameter * (len(canal_sizes) - 1) + canal_gutter * (len(canal_sizes) - 1);
         sx = base_width / 2 - canals_width / 2;
-        for(i=[0:len(cable_canal_diameter)-1]) {
-            pos_x = sx + i * cable_canal_max_diameter + canal_gutter * i;
+        for(i=[0:len(canal_sizes)-1]) {
+            pos_x = sx + i * canal_max_diameter + canal_gutter * i;
             translate([pos_x, 0, 0])
-                canal(cable_canal_diameter[i]);
+                canal(canal_sizes[i]);
         }
     }
 }
