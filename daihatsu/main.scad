@@ -82,4 +82,6 @@ module assembly() {
             holder();
 }
 
-assembly();
+render() {
+    assembly();
+}
