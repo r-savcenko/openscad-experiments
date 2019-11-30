@@ -1,19 +1,26 @@
-BASE_CORNER_RADIUS=1;
-BASE_SIZE_X=40;
-BASE_SIZE_Y=10;
-THICKNESS=1;
+BASE_CORNER_RADIUS=2;
+BASE_SIZE_X=36.00;
+BASE_SIZE_Y=13.00;
+THICKNESS=2;
 
-BASE_CUTOUT_SIZE_X=20;
+BASE_CUTOUT_SIZE_X=21;
 BASE_CUTOUT_SIZE_Y=5;
 
-HOLDER_HEIGHT=10;
-HOLDER_STICKOUT=0.4;
+HOLDER_HEIGHT=7;
+HOLDER_STICKOUT=0.75;
 
 HOLE_DIAMETER=2;
-HOLE_DISTANCE_X= 4;
-HOLE_DISTANCE_Y= BASE_SIZE_Y / 2;
+HOLE_DISTANCE_X= 2;
 
+SIDE_THICKNESS=2;
+SIDE_SIZE_X=22.5;
+SIDE_SIZE_Z=6;
 
+CENTER_SIZE_X=12;
+
+CENTER_CYL_R1=2;
+CENTER_CYL_R2=1;
+CENTER_CYL_H=4;
 
 module smooth_rect(size_x, size_y, size_z, corner_radius = 0.1) {
     x1 = 0 - size_x / 2 + corner_radius;
@@ -68,6 +75,13 @@ module holes() {
     mirror([1, 0, 0])
         translate([BASE_SIZE_X / 2 - HOLE_DISTANCE_X, 0, 0 - THICKNESS / 2])
             cylinder(h=THICKNESS * 2, d=HOLE_DIAMETER, $fn=16);
+
+    translate([BASE_SIZE_X / 2 - HOLE_DISTANCE_X - 0.5, 0, 0 - THICKNESS / 2])
+        cylinder(h=THICKNESS * 2, d=HOLE_DIAMETER, $fn=16);
+
+    mirror([1, 0, 0])
+        translate([BASE_SIZE_X / 2 - HOLE_DISTANCE_X - 0.5, 0, 0 - THICKNESS / 2])
+            cylinder(h=THICKNESS * 2, d=HOLE_DIAMETER, $fn=16);
 }
 
 module assembly() {
@@ -83,5 +97,13 @@ module assembly() {
 }
 
 render() {
+    cylinder(r1=CENTER_CYL_R1, r2=CENTER_CYL_R2, h=CENTER_CYL_H,$fn=16);
+    translate([0, 0, THICKNESS/2])
+        cube([CENTER_SIZE_X, BASE_SIZE_Y, THICKNESS], center=true);
+    mirror([0,1,0])
+        translate([0, BASE_SIZE_Y/2-THICKNESS/2, SIDE_SIZE_Z/2])
+            cube([SIDE_SIZE_X, THICKNESS, SIDE_SIZE_Z], center=true);
+    translate([0, BASE_SIZE_Y/2-THICKNESS/2, SIDE_SIZE_Z/2])
+        cube([SIDE_SIZE_X, THICKNESS, SIDE_SIZE_Z], center=true);
     assembly();
 }
