@@ -9,7 +9,7 @@ BASE_BOTTOM_INSET = 7.5;
 TOTAL_HEIGHT = 129;
 BASE_TOP_ROUND_RADIUS = 20;
 
-SEGMENT_SIZE_Z = 2.5;
+SEGMENT_SIZE_Z = 4;
 SEGMENT_BOTTOM_THICKNESS = 10;
 
 OUTSIDE_BOTTOM_ROUND_RADIUS = 10;
@@ -18,13 +18,13 @@ OUTSIDE_TOP_LEFT_RADIUS = 20;
 OUTSIDE_TOP_RADIUS = 50;
 TOP_DIFF = 4;
 
-MARGIN = 0.2;
+MARGIN = 0;
 
-CUTS_START_ANGLE = 120;
+CUTS_START_ANGLE = 110;
 SEGMENT_COUNT = 6;
 
-RING_POS_Z_1 = 25;
-RING_POS_Z_2 = 101;
+RING_POS_Z_1 = 15;
+RING_POS_Z_2 = 93;
 
 SEGMENT_ANGlE = CUTS_START_ANGLE * 2 / (SEGMENT_COUNT - 1);
 
@@ -66,9 +66,9 @@ module segment_cutout() {
 };
 
 module segment_ring_cut(pos_y) {
-    translate([0 - GENERAL_THICKNESS * 2.5, pos_y, -1])
+    translate([0 - GENERAL_THICKNESS * 2.5 + MARGIN, pos_y, -1])
         linear_extrude(GENERAL_THICKNESS + 2)
-            square([GENERAL_THICKNESS * 2, SEGMENT_SIZE_Z]);
+            square([GENERAL_THICKNESS * 2, GENERAL_THICKNESS]);
 }
 
 module segment_raw() {
@@ -102,7 +102,7 @@ module segment_raw() {
 
 module front_cyl_cut() {
     x1 = 0;
-    x2 = 90;
+    x2 = 100;
     x3 = 0 - x2;
 
     y1 = 0;
@@ -157,4 +157,4 @@ module segment() {
 }
 
 base_ring();
-segment();
+/* segment(); */
