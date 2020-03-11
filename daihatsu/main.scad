@@ -1,18 +1,18 @@
 BASE_CORNER_RADIUS=2;
-BASE_SIZE_X=36.00;
-BASE_SIZE_Y=13.00;
+BASE_SIZE_X=36.01;
+BASE_SIZE_Y=13.01;
 THICKNESS=2;
 
-BASE_CUTOUT_SIZE_X=21;
-BASE_CUTOUT_SIZE_Y=5;
+BASE_CUTOUT_SIZE_X=19.0;
+BASE_CUTOUT_SIZE_Y=3.6;
 
-HOLDER_HEIGHT=7;
-HOLDER_STICKOUT=0.75;
+HOLDER_HEIGHT=10;
+HOLDER_STICKOUT=1;
+HOLDER_THICKNESS=THICKNESS;
 
 HOLE_DIAMETER=2;
 HOLE_DISTANCE_X= 2;
 
-SIDE_THICKNESS=2;
 SIDE_SIZE_X=22.5;
 SIDE_SIZE_Z=6;
 
@@ -48,16 +48,19 @@ module smooth_rect(size_x, size_y, size_z, corner_radius = 0.1) {
 module holder() {
     poly = [
         [0, 0],
-        [THICKNESS, 0],
-        [0, HOLDER_STICKOUT + THICKNESS]
+        [HOLDER_THICKNESS, 0],
+        [0, HOLDER_STICKOUT + HOLDER_THICKNESS]
     ];
 
-    translate([0 - THICKNESS / 2, 0 - BASE_CUTOUT_SIZE_Y / 2, HOLDER_HEIGHT - THICKNESS])
+    translate([0 - HOLDER_THICKNESS / 2, 0 - BASE_CUTOUT_SIZE_Y / 2, HOLDER_HEIGHT - HOLDER_THICKNESS])
         rotate([90, -90, 180])
             linear_extrude(BASE_CUTOUT_SIZE_Y)
                 polygon(poly);
-    translate([0, 0, (HOLDER_HEIGHT - THICKNESS) / 2])
-        cube([THICKNESS, BASE_CUTOUT_SIZE_Y, HOLDER_HEIGHT - THICKNESS], true);
+    translate([0, 0, (HOLDER_HEIGHT - HOLDER_THICKNESS) / 2])
+        cube([HOLDER_THICKNESS, BASE_CUTOUT_SIZE_Y, HOLDER_HEIGHT - HOLDER_THICKNESS], true);
+
+    translate([0 - HOLDER_THICKNESS, 0, (HOLDER_HEIGHT * 2 / 3 - HOLDER_THICKNESS) / 2])
+        cube([HOLDER_THICKNESS, BASE_CUTOUT_SIZE_Y, HOLDER_HEIGHT / 2 - HOLDER_THICKNESS], true);
 }
 
 module base() {
@@ -96,7 +99,6 @@ module assembly() {
             holder();
 }
 
-render() {
     cylinder(r1=CENTER_CYL_R1, r2=CENTER_CYL_R2, h=CENTER_CYL_H,$fn=16);
     translate([0, 0, THICKNESS/2])
         cube([CENTER_SIZE_X, BASE_SIZE_Y, THICKNESS], center=true);
@@ -106,4 +108,3 @@ render() {
     translate([0, BASE_SIZE_Y/2-THICKNESS/2, SIDE_SIZE_Z/2])
         cube([SIDE_SIZE_X, THICKNESS, SIDE_SIZE_Z], center=true);
     assembly();
-}

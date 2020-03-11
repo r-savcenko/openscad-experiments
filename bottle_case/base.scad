@@ -1,3 +1,5 @@
+use <voronoi.scad>;
+
 $fn = 32;
 GENERAL_THICKNESS = 5;
 
@@ -23,10 +25,16 @@ MARGIN = 0;
 CUTS_START_ANGLE = 110;
 SEGMENT_COUNT = 6;
 
-RING_POS_Z_1 = 15;
-RING_POS_Z_2 = 93;
+RING_POS_Z_1 = 25;
+RING_POS_Z_2 = 103;
 
 SEGMENT_ANGlE = CUTS_START_ANGLE * 2 / (SEGMENT_COUNT - 1);
+
+BASE_RING_CENTER_R = BASE_RADIUS + GENERAL_THICKNESS / 2;
+PANEL_ANGLE = CUTS_START_ANGLE * 2 / SEGMENT_COUNT;
+PANEL_SIZE_X = 2 * PI * BASE_RING_CENTER_R / 360 * PANEL_ANGLE;
+PANEL_SIZE_Y = RING_POS_Z_2 - RING_POS_Z_1 - SEGMENT_SIZE_Z;
+PANEL_SIZE_Z = 0.55;
 
 module segment_cutout_inner() {
         translate([BASE_BOTTOM_ROUND_RADIUS, BASE_BOTTOM_ROUND_RADIUS, 0])
@@ -144,7 +152,13 @@ module base_ring() {
             rotate([0, 0, 0 - CUTS_START_ANGLE + i * SEGMENT_ANGlE])
                 base_cyl_cut();
         }
-
+        translate([0, 0, GENERAL_THICKNESS / 2]) {
+            difference() {
+                cylinder(r=BASE_RING_CENTER_R + PANEL_SIZE_Z / 2, h = GENERAL_THICKNESS / 2, $fn = 64);
+                translate([0, 0, -1])
+                    cylinder(r=BASE_RING_CENTER_R - PANEL_SIZE_Z / 2, h = GENERAL_THICKNESS / 2 + 2, $fn = 64);
+            }
+        }
     }
 }
 
@@ -156,5 +170,28 @@ module segment() {
     }
 }
 
-base_ring();
+module panel_inner() {
+    difference() {
+        color("lime") cube([PANEL_SIZE_X, PANEL_SIZE_Y, PANEL_SIZE_Z]);
+        translate([-25, 0, -1])
+            linear_extrude(PANEL_SIZE_Z + 2)
+                scale([0.2, 0.2, 1])
+                    random_voronoi(n = 128, round = 3, min = 0, max = 400, L = 500,  nuclei=false, thickness=2);
+    }
+}
+
+module panel() {
+    union() {
+        difference() {
+            translate([0, 0 - GENERAL_THICKNESS / 2, 0])
+                cube([PANEL_SIZE_X, PANEL_SIZE_Y + GENERAL_THICKNESS, PANEL_SIZE_Z]);
+            translate([GENERAL_THICKNESS / 2, 0, 0])
+                cube([PANEL_SIZE_X - GENERAL_THICKNESS, PANEL_SIZE_Y, PANEL_SIZE_Z]);
+        }
+        panel_inner();
+    }
+}
+
+/* base_ring(); */
 /* segment(); */
+panel();
